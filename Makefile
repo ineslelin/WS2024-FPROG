@@ -1,9 +1,9 @@
 PROGRAM   = project
-CXX       = clang++
-CXXFLAGS  = -g -std=c++17 -Wall -lm
+CXX       = ghc
+# CXXFLAGS  = -g -std=c++17 -Wall -lm
 
-$(PROGRAM): main.cpp
-	$(CXX) main.cpp -o out/$(PROGRAM)
+$(PROGRAM): main.hs
+	$(CXX) main.hs -o out/$(PROGRAM)
 
 .PHONY: clean 
 
