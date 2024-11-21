@@ -1,0 +1,2 @@
+Hello, world! This is an example. Numbers like 123 should not appear.
+Words like hello, HELLO, and world should only appear once.
