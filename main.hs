@@ -1,31 +1,21 @@
 import Data.Char (isAlpha, toLower)
-import Data.List (nub, sort)
 import Control.Parallel.Strategies (parList, rdeepseq, using)
 import System.IO
 
-data Color = Red | Black deriving (Show, Eq)
-data Tree a = Empty
-            | Node Color (Tree a) a (Tree a)
-            deriving (Show)
-
--- Red-Black Tree Functions
-makeRed :: a -> Tree a -> Tree a -> Tree a
-makeRed val left right = Node Red left val right
-
-makeBlack :: a -> Tree a -> Tree a -> Tree a
-makeBlack val left right = Node Black left val right
+data Color = Red | Black
+data Tree a = Empty | Node Color (Tree a) a (Tree a)
 
 insert :: Ord a => a -> Tree a -> Tree a
-insert val tree = makeBlack rootVal leftTree rightTree
+insert val tree = Node Black left x right
   where
-    Node _ leftTree rootVal rightTree = insertHelper val tree
+    Node _ left x right = insertHelper val tree
 
 insertHelper :: Ord a => a -> Tree a -> Tree a
-insertHelper val Empty = makeRed val Empty Empty
+insertHelper val Empty = Node Red Empty val Empty
 insertHelper val (Node color left x right)
   | val < x   = balance color (insertHelper val left) x right
   | val > x   = balance color left x (insertHelper val right)
-  | otherwise = Node color left x right
+  | val == x  = Node color left x right
 
 balance :: Color -> Tree a -> a -> Tree a -> Tree a
 balance Black (Node Red (Node Red a x b) y c) z d = Node Red (Node Black a x b) y (Node Black c z d)
@@ -36,32 +26,30 @@ balance color left x right = Node color left x right
 
 inOrderTraversal :: Tree a -> [a]
 inOrderTraversal Empty = []
-inOrderTraversal (Node _ left x right) = inOrderTraversal left ++ [x] ++ inOrderTraversal right
+inOrderTraversal (Node _ left x right) = (inOrderTraversal left) ++ [x] ++ (inOrderTraversal right)
 
--- Tokenize and clean text in parallel
 tokenizeText :: String -> [String]
-tokenizeText content = (nub . sort $ words content) `using` parList rdeepseq
+tokenizeText content = words content
 
 cleanText :: String -> String
-cleanText = map (\c -> if isAlpha c then toLower c else ' ')
+cleanText = map (\string -> if isAlpha string then toLower string else ' ')
 
--- Main program
+treeFromList :: [a] -> Tree a -> Tree a
+treeFromList [] tree = tree
+treeFromList (x:xs) tree = treeFromList xs (insert x tree)
+
+
 main :: IO ()
 main = do
-  -- Step 1: Read the input file
   input <- readFile "input.txt"
 
-  -- Step 2: Tokenize and clean text in parallel
   let cleanedInput = cleanText input
   let wordsList = tokenizeText cleanedInput
 
-  -- Step 3: Insert words into the Red-Black Tree
-  let tree = foldr insert Empty wordsList
+  let tree = treeFromList wordsList Empty
 
-  -- Step 4: Perform an in-order traversal to get sorted words
   let sortedWords = inOrderTraversal tree
 
-  -- Step 5: Write the sorted words to a new file
   writeFile "output.txt" (unlines sortedWords)
 
   putStrLn "Words have been processed and saved to output.txt!"
