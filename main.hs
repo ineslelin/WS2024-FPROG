@@ -1,5 +1,4 @@
 import Data.Char (isAlpha, toLower)
-import Control.Parallel.Strategies (parList, rdeepseq, using)
 import System.IO
 
 data Color = Red | Black
@@ -34,7 +33,7 @@ tokenizeText content = words content
 cleanText :: String -> String
 cleanText = map (\string -> if isAlpha string then toLower string else ' ')
 
-treeFromList :: [a] -> Tree a -> Tree a
+treeFromList :: Ord a => [a] -> Tree a -> Tree a
 treeFromList [] tree = tree
 treeFromList (x:xs) tree = treeFromList xs (insert x tree)
 
