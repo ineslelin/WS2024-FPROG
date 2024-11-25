@@ -37,18 +37,27 @@ treeFromList :: Ord a => [a] -> Tree a -> Tree a
 treeFromList [] tree = tree
 treeFromList (x:xs) tree = treeFromList xs (insert x tree)
 
+inputFile :: FilePath -> IO String
+inputFile path = readFile path
+
+outputFile :: FilePath -> [String] -> IO ()
+outputFile path contents = writeFile path (unlines contents)
+
+printToConsole :: String -> IO ()
+printToConsole msg = 
+  putStrLn msg
 
 main :: IO ()
 main = do
-  input <- readFile "input.txt"
+  contents <- inputFile "input.txt"
 
-  let cleanedInput = cleanText input
+  let cleanedInput = cleanText contents
   let wordsList = tokenizeText cleanedInput
 
   let tree = treeFromList wordsList Empty
 
   let sortedWords = inOrderTraversal tree
 
-  writeFile "output.txt" (unlines sortedWords)
+  outputFile "output.txt" sortedWords
 
-  putStrLn "Words have been processed and saved to output.txt!"
+  printToConsole "Words have been processed and saved to output.txt!"
