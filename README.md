@@ -28,3 +28,4 @@ make
 - https://www.khoury.northeastern.edu/~camoy/pub/red-black-tree.pdf
 - https://github.com/yassiommi/redblacktree
 - https://www.schoolofhaskell.com/school/starting-with-haskell/introduction-to-haskell/1-haskell-basics
+- https://www.geeksforgeeks.org/insertion-in-red-black-tree/
