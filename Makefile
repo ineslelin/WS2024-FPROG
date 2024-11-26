@@ -1,15 +1,19 @@
 PROGRAMS   = project unit
 CXX       = ghc
+OUTDIR     = out
 
-all: $(PROGRAMS)
+$(OUTDIR):
+	mkdir -p $(OUTDIR)
+
+all: $(OUTDIR) $(PROGRAMS)
 
 project: main.hs
-	$(CXX) main.hs -o out/project
+	$(CXX) main.hs -o $(OUTDIR)/project
 
 unit: unittests.hs
-	$(CXX) unittests.hs -o out/unittests
+	$(CXX) unittests.hs -o $(OUTDIR)/unittests
 
-.PHONY: clean 
+.PHONY: clean
 
 clean:
-	-rm -f *.o *.hi ./out/*
+	-rm -f *.o *.hi $(OUTDIR)/*
