@@ -2,8 +2,8 @@ module RBT where
 
 import Data.Char (isAlpha, toLower)
 
-data Color = Red | Black
-data Tree a = Empty | Node Color (Tree a) a (Tree a)
+data Color = Red | Black deriving (Eq, Show)
+data Tree a = Empty | Node Color (Tree a) a (Tree a) deriving (Eq, Show)
 
 insert :: Ord a => a -> Tree a -> Tree a
 insert val tree = Node Black left x right
