@@ -1,4 +1,4 @@
-PROGRAMS   = project unittests
+PROGRAMS   = project unit
 CXX       = ghc
 
 all: $(PROGRAMS)

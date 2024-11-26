@@ -25,10 +25,9 @@ testClean = TestCase (assertEqual "Should clean text"
 
 tests :: Test
 tests = TestList [TestLabel "Test Tokenize" testTokenize,
-                  TestLabel "Test Clean" testClean,
+                  TestLabel "Test Clean" testClean]
                 --   TestLabel "Test Insert String" testInsertString,
-                --   TestLabel "Test Insert Integer" testInsertInt
-                 ]
+                --   TestLabel "Test Insert Integer" testInsertInt]
 
 main :: IO Counts
 main = runTestTT tests
