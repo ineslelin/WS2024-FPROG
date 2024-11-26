@@ -1,5 +1,6 @@
 import Data.Char (isAlpha, toLower)
 import System.IO
+import Text.Regex (mkRegex, subRegex)
 
 data Color = Red | Black
 data Tree a = Empty | Node Color (Tree a) a (Tree a)
@@ -31,7 +32,9 @@ tokenizeText :: String -> [String]
 tokenizeText content = words content
 
 cleanText :: String -> String
-cleanText = map (\string -> if isAlpha string then toLower string else ' ')
+cleanText input =
+  let regex = mkRegex "[^a-zA-Z']|(?<![a-zA-Z])'(?![a-zA-Z])"
+   in map toLower $ subRegex regex input " "
 
 treeFromList :: Ord a => [a] -> Tree a -> Tree a
 treeFromList [] tree = tree
@@ -47,7 +50,6 @@ printToConsole :: String -> IO ()
 printToConsole msg = 
   putStrLn msg
 
-main :: IO ()
 main = do
   contents <- inputFile "input.txt"
 
