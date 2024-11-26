@@ -14,7 +14,7 @@ The libraries we used for the program itself are Data.Char, System.IO and System
     - getArgs: get command-line arguments
 For the unit tests we used HUnit.
 
-Some challenges we faced where the fact that we had never worked with *Haskell* before, or any functional programming language for that matter, so the syntax was entirely new to us.
+Some challenges we faced were the fact that we had never worked with *Haskell* before, or any functional programming language for that matter, so the syntax was entirely new to us.
 
 ## How to run
 To run the project, you will need a file containing your text (A ``.txt`` file is preferred, but the program has also been successfully tested with ``.md`` files and ``.hs`` files).
@@ -37,3 +37,4 @@ make unit
 - https://github.com/yassiommi/redblacktree
 - https://www.schoolofhaskell.com/school/starting-with-haskell/introduction-to-haskell/1-haskell-basics
 - https://www.geeksforgeeks.org/insertion-in-red-black-tree/
+- https://en.wikipedia.org/wiki/Red%E2%80%93black_tree
