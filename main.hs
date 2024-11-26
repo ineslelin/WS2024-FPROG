@@ -1,5 +1,6 @@
 import Data.Char (isAlpha, toLower)
 import System.IO
+import System.Environment
 
 data Color = Red | Black
 data Tree a = Empty | Node Color (Tree a) a (Tree a)
@@ -47,17 +48,21 @@ printToConsole :: String -> IO ()
 printToConsole msg = 
   putStrLn msg
 
-main :: IO ()
 main = do
-  contents <- inputFile "input.txt"
+  args <- getArgs
 
-  let cleanedInput = cleanText contents
-  let wordsList = tokenizeText cleanedInput
+  case args of 
+    [path] -> do
+      contents <- inputFile path
+      let cleanedInput = cleanText contents
+      let wordsList = tokenizeText cleanedInput
 
-  let tree = treeFromList wordsList Empty
+      let tree = treeFromList wordsList Empty
 
-  let sortedWords = inOrderTraversal tree
+      let sortedWords = inOrderTraversal tree
 
-  outputFile "output.txt" sortedWords
+      outputFile "output.txt" sortedWords
 
-  printToConsole "Words have been processed and saved to output.txt!"
+      printToConsole "Words have been processed and saved to output.txt!"
+    [] -> printToConsole "No file path provided. Usage: ./out/project /path/to/file"
+    _ -> printToConsole "Too many arguments provided. Usage: ./out/project /path/to/file"
