@@ -1,10 +1,16 @@
 PROGRAM   = project
 CXX       = ghc
+BUILD_DIR = out
 
-$(PROGRAM): main.hs
-	$(CXX) main.hs -o out/$(PROGRAM)
+all: $(PROGRAM)
+
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+
+$(PROGRAM): $(BUILD_DIR) main.hs
+	$(CXX) main.hs -o $(BUILD_DIR)/$(PROGRAM)
 
 .PHONY: clean 
 
 clean:
-	-rm -f *.o $(PROGRAM) 
+	-rm -f *.o *.hi $(BUILD_DIR)/$(PROGRAM)
